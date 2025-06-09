@@ -6,7 +6,7 @@ public class Main {
         //jdbc:mysql://[host][:port]/[database][?propertyName1=propertyValue1]
         String url = "jdbc:mysql://localhost:3306/northwind";
         String username = "root";
-        String password = "yearup";
+        String password = "password";
 
         //open connection
         //use a statement to execute
@@ -16,25 +16,24 @@ public class Main {
             Statement statement = connection.createStatement();
 
             //define query
-            String query = "SELECT * FROM products";
+            String query = "SELECT * FROM products ";
             ResultSet results = statement.executeQuery(query);
 
-            while (results.next()){
+            while (results.next()) {
                 String productName = results.getString("productName");
                 System.out.println("Product Name");
                 System.out.println(productName);
                 String unitsOnOrder = results.getString("unitsOnOrder");
 
-                if (!unitsOnOrder.equals("0")){
+                if (!unitsOnOrder.equals("0")) {
                     System.out.println("Units On Order");
 
                     System.out.println(unitsOnOrder);
                 }
             }
 
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
 
 

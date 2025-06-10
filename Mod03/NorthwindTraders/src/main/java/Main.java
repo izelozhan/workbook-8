@@ -1,17 +1,22 @@
+import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws SQLException {
         //jdbc:mysql://[host][:port]/[database][?propertyName1=propertyValue1]
-        String url = "jdbc:mysql://localhost:3306/northwind";
-        String username = "root";
-        String password = "password";
+        // for driver manager
+//        String url = "jdbc:mysql://localhost:3306/northwind";
+//        String username = "root";
+//        String password = "password";
 
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/northwind");
+        dataSource.setUsername("root");
+        dataSource.setPassword("password");
 
         //open connection & use a statement to execute
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        try (Connection connection = dataSource.getConnection()) {
             Scanner scanner = new Scanner(System.in);
             boolean exit = true;
             System.out.println("Connected to the database!");
@@ -26,17 +31,15 @@ public class Main {
 
                 String userSelection = scanner.nextLine();
 
-                if (userSelection.equals("0")) {
-                    System.out.println("Exiting.. Bye!");
-                    exit = false;
-                } else if (userSelection.equals("1")) {
-                    displayProducts(connection);
-                } else if (userSelection.equals("2")) {
-                    displayCustomers(connection);
-                } else if (userSelection.equals("3")) {
-                    displayAllCategories(connection, scanner);
-                } else {
-                    System.out.println("Try again, invalid option.");
+                switch (userSelection) {
+                    case "0" -> {
+                        System.out.println("Exiting.. Bye!");
+                        exit = false;
+                    }
+                    case "1" -> displayProducts(connection);
+                    case "2" -> displayCustomers(connection);
+                    case "3" -> displayAllCategories(connection, scanner);
+                    default -> System.out.println("Try again, invalid option.");
                 }
             }
         } catch (SQLException e) {
@@ -44,7 +47,7 @@ public class Main {
         }
     }
 
-    // pass connection to method and use statement inside to execute query
+    // pass connection to method and use statement inside to execute
     // query is different for each, so just pass the connection
     // use try-with-resources for automatically close the resource
 

@@ -10,7 +10,7 @@ public class Main {
 
         dataSource.setUrl("jdbc:mysql://localhost:3306/sakila");
         dataSource.setUsername("root");
-        dataSource.setPassword("yearup");
+        dataSource.setPassword("password");
 
         try (Connection connection = dataSource.getConnection()) {
             Scanner scanner = new Scanner(System.in);

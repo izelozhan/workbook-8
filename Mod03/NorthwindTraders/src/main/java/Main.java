@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         //jdbc:mysql://[host][:port]/[database][?propertyName1=propertyValue1]
         // for driver manager
 //        String url = "jdbc:mysql://localhost:3306/northwind";

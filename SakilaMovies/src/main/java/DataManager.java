@@ -10,20 +10,13 @@ import java.util.List;
 
 public class DataManager {
     private BasicDataSource basicDataSource;
-    private Connection connection;
 
-    public DataManager(BasicDataSource basicDataSource, Connection connection) {
+    public DataManager(BasicDataSource basicDataSource) {
         this.basicDataSource = basicDataSource;
-        this.connection = connection;
     }
 
     public List<Actor> getActorsByName(String inputFirstName, String inputLastName) throws SQLException {
-        basicDataSource = new BasicDataSource();
-
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/sakila");
-        basicDataSource.setUsername("root");
-        basicDataSource.setPassword("yearup");
-        connection = basicDataSource.getConnection();
+        Connection connection = basicDataSource.getConnection();
 
         List<Actor> actors = new ArrayList<>();
 
@@ -51,6 +44,8 @@ public class DataManager {
     }
 
     public List<Film> getFilmsByActorId(int actorId) throws SQLException {
+        Connection connection = basicDataSource.getConnection();
+
         List<Film> films = new ArrayList<>();
 
         String query = "SELECT f.film_id, f.title, f.description, f.release_year, f.length FROM film f JOIN film_actor fa ON f.film_id = fa.film_id WHERE fa.actor_id = ?";

@@ -5,19 +5,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
         BasicDataSource dataSource = new BasicDataSource();
-
         dataSource.setUrl("jdbc:mysql://localhost:3306/sakila");
-        dataSource.setUsername("root");
-        dataSource.setPassword("password");
+        dataSource.setUsername(args[0]);
+        dataSource.setPassword(args[1]);
+        DataManager dataManager = new DataManager(dataSource);
 
-        try (Connection connection = dataSource.getConnection()) {
-
-            DataManager dataManager = new DataManager(dataSource, connection);
-
+        try{
             boolean exit = true;
             System.out.println("Connected to the database!");
 
@@ -67,7 +65,7 @@ public class Main {
                 }
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new Error(e);
         }
 
